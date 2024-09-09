@@ -20,3 +20,9 @@ jobs:
       #       compile app
       - name: Build with dotnet
         run: dotnet build --configuration Release
+
+      # testing the app
+      - name: dotnet test
+        # --no-build - ako pogledas iznad, vec sam uradio build,
+        # ovde samo kazem, ej koristi to iznad sto je buildovano
+        run: dotnet build --configuration Release --no-build
