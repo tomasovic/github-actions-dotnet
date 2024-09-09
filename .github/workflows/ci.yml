@@ -17,17 +17,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0
-      #       compile app
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
 
       # testing the app
       - name: dotnet test
-        # --no-build - ako pogledas iznad, vec sam uradio build,
-        # ovde samo kazem, ej koristi to iznad sto je buildovano
-        run: dotnet test --configuration Release --no-build
+        run: dotnet test --configuration Release
 
-      - name: dotnet formatting
-        # --no-build - ako pogledas iznad, vec sam uradio build,
-        # ovde samo kazem, ej koristi to iznad sto je buildovano
-        run: dotnet format -v detailed --verify-no-changes
+      - name: dotnet publish
+        # sada ispod u run ne moras da kazes src/<fajlovi folderi>,
+        # kao sto si rekao za tu command iznad koje je u komentaru
+        working-directory: src/
+        # -o artifacts - output artifacts - artifacts je folder
+#        run: dotnet publish src/GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o artifacts
+        run: dotnet publish /GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o ../artifacts
