@@ -23,9 +23,15 @@ jobs:
         run: dotnet test --configuration Release
 
       - name: dotnet publish
-        # sada ispod u run ne moras da kazes src/<fajlovi folderi>,
-        # kao sto si rekao za tu command iznad koje je u komentaru
-        working-directory: src/
+        # sada ispod u run command ne moras da kazes src/<fajlovi folderi>,
+        # ako koristis working-directory:
+#        working-directory: src/
         # -o artifacts - output artifacts - artifacts je folder
-#        run: dotnet publish src/GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o artifacts
-        run: dotnet publish /GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o ../artifacts
+#        run: dotnet publish /GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o ../artifacts
+        run: dotnet publish src/GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dometrain-artifact
+          # dotnet publish si rekao da zelis da ide u artifacts folder
+          path: artifacts
