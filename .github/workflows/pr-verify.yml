@@ -26,3 +26,8 @@ jobs:
         # --no-build - ako pogledas iznad, vec sam uradio build,
         # ovde samo kazem, ej koristi to iznad sto je buildovano
         run: dotnet test --configuration Release --no-build
+
+      - name: dotnet formatting
+        # --no-build - ako pogledas iznad, vec sam uradio build,
+        # ovde samo kazem, ej koristi to iznad sto je buildovano
+        run: dotnet format -v detailed --verify-no-changes
