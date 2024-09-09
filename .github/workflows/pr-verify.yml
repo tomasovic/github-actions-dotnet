@@ -25,4 +25,4 @@ jobs:
       - name: dotnet test
         # --no-build - ako pogledas iznad, vec sam uradio build,
         # ovde samo kazem, ej koristi to iznad sto je buildovano
-        run: dotnet test --no-build
+        run: dotnet test --configuration Release --no-build
