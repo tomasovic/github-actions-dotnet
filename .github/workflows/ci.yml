@@ -1,12 +1,12 @@
-name: PR Verify
+name: CI
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
   build:
-    name: PR Verify
+    name: CI
     runs-on: ubuntu-latest
 
     steps:
