@@ -4,6 +4,14 @@ on:
   push:
     branches: [ "main" ]
 
+# ovo su permissioni koji trazim za GITHUB_TOKEN,
+# samo minimalni koji trebaju za ovaj action
+permissions:
+  # token to request an OpenID Connect token
+  id-token: write
+  # Prava za repository
+  contents: read
+
 jobs:
   build:
     name: CI
