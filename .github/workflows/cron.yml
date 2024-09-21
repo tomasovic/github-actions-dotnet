@@ -2,7 +2,7 @@ name: RUN Every 5 minutes
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+#    - cron: '*/5 * * * *'
 
 jobs:
   # ime ovde nije bitno, to je samo ID,
