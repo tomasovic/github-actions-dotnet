@@ -79,8 +79,9 @@ jobs:
         uses: azure/webapps-deploy@v3.0.1
         with:
           # env.AZURE_WEBAPP_NAME - ime aplikacije koju si dao ili dobio na Azure
+          # to je ime u App service koji si dao za app.
           # app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          app-name: githubactions-milan
+          app-name: domtrain-githubactions
           #  ovde si uradio download artifacta
           # mora da ima isti naziv kao i u stepu iznad
           package: artifacts/
