@@ -8,16 +8,16 @@ public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries =
     [
-        "Freezing",
-        "Bracing",
-        "Chilly",
-        "Cool",
-        "Mild",
-        "Warm",
-        "Balmy",
-        "Hot",
-        "Sweltering",
-        "Scorching"
+        "Ledeno",
+        "Zaleđeno",
+        "Prohladno",
+        "Hladno",
+        "Umereno",
+        "Toplo",
+        "Prijatno",
+        "Vruće",
+        "Ugušujuće",
+        "Užareno"
     ];
 
     [HttpGet(Name = "GetWeatherForecast")]
