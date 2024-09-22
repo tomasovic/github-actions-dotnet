@@ -33,9 +33,9 @@ jobs:
       - name: dotnet publish
         # sada ispod u run command ne moras da kazes src/<fajlovi folderi>,
         # ako koristis working-directory:
-#        working-directory: src/
+        #        working-directory: src/
         # -o artifacts - output artifacts - artifacts je folder
-#        run: dotnet publish /GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o ../artifacts
+        #        run: dotnet publish /GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o ../artifacts
         # artifact koji napravis i uploadujes, videces kada kliknes na workflow,
         # cim zavrsi videces artifact koji mozes downloadujes.
         # znaci, dotnet publish ce napraviti dll koji ce ubaciti u folder artifacts
@@ -50,12 +50,20 @@ jobs:
           path: artifacts/
 
   # deploy_dev mora da se pokrene tek posle USPEHA,
-  # koraka iznad
+  # koraka iznad,
+  # ovo je deployment na development ( kao kao ),
+  # ispod ima deployment na production ( kao kao )
   deploy_dev:
     name: Deploy Dev
     runs-on: ubuntu-latest
     # ovde kazem da ovaj deploy_dev korak zavisi od koraka pod nazivom build
     needs: build
+    # ovo ti daje mogucnost da koristis potpuno iste nazive za secrets,
+    # u celoj skripti, ali ce imati drugu vrednost,
+    # u odnosu na env u kojem se koristi.
+    # env namestas u githubu, secrets, samo ides na environments sa leve strane,
+    # i tamo napravis env.
+    environment: dev
 
     steps:
       # ovo ce da downlouduje artifact koji si napravio malo iznad
@@ -82,7 +90,51 @@ jobs:
           # env.AZURE_WEBAPP_NAME - ime aplikacije koju si dao ili dobio na Azure
           # to je ime u App service koji si dao za app.
           # app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          app-name: domtrain-githubactions
+          app-name: dometrain
+          #  ovde si uradio download artifacta
+          # mora da ima isti naziv kao i u stepu iznad
+          package: artifacts/
+
+  # ovo je kao deploy na production,
+  # iznad je deploy na development.
+  deploy_prod:
+    name: Deploy Prod
+    runs-on: ubuntu-latest
+    # ovde kazem da ovaj deploy_dev korak zavisi od koraka pod nazivom build
+    needs: deploy_dev
+    # ovo ti daje mogucnost da koristis potpuno iste nazive za secrets,
+    # u celoj skripti, ali ce imati drugu vrednost,
+    # u odnosu na env u kojem se koristi.
+    # env namestas u githubu, secrets, samo ides na environments sa leve strane,
+    # i tamo napravis env.
+    environment: prod
+
+    steps:
+      # ovo ce da downlouduje artifact koji si napravio malo iznad
+      # naravno moras da imas isti naziv artifact-a
+      - uses: actions/download-artifact@v4
+        with:
+          name: dometrain-artifact
+          # ovo je mesto gde ces da napravis download
+          # moze da se zove kako oces, ne mora ovako,
+          # ne mora isto kao i upload artifact
+          path: artifacts/
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          # svi secrets su uneti u Github secrets za ovaj repo
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: "Deploy to Azure app service"
+        uses: azure/webapps-deploy@v3.0.1
+        with:
+          # env.AZURE_WEBAPP_NAME - ime aplikacije koju si dao ili dobio na Azure
+          # to je ime u App service koji si dao za app.
+          # app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: domtrain-prod
           #  ovde si uradio download artifacta
           # mora da ima isti naziv kao i u stepu iznad
           package: artifacts/
