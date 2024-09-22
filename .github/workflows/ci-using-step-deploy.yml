@@ -41,6 +41,7 @@ jobs:
       # tamo imas ovaj env,
       # ovde ga prosledjujes sada tamo.
 #      env: dev
+       env: ""
     # moras da kazes inherit,
     # ovaj action se pokrece PRVI,
     # i on ce pokupiti sve secrets,
