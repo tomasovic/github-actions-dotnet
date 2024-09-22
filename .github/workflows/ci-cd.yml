@@ -49,11 +49,13 @@ jobs:
           # dotnet publish si rekao da zelis da ide u artifacts folder
           path: artifacts/
 
-  # deploy_dev mora da se pokrene tek posle USPEHA koraka iznad
+  # deploy_dev mora da se pokrene tek posle USPEHA,
+  # koraka iznad
   deploy_dev:
     name: Deploy Dev
     runs-on: ubuntu-latest
-    # ovde kazem da ovaj deploy_dev korak zavisi od koraka pod nazivom build iznad
+    # ovde kazem da ovaj deploy_dev korak zavisi od koraka pod nazivom build
+    needs: build
 
     steps:
       # ovo ce da downlouduje artifact koji si napravio malo iznad
