@@ -40,7 +40,7 @@ jobs:
       # inputs property,
       # tamo imas ovaj env,
       # ovde ga prosledjujes sada tamo.
-      env: dev
+#      env: dev
     # moras da kazes inherit,
     # ovaj action se pokrece PRVI,
     # i on ce pokupiti sve secrets,
