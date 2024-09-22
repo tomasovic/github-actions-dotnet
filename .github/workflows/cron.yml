@@ -1,0 +1,16 @@
+name: RUN Every 5 minutes
+
+on:
+  schedule:
+#    - cron: '*/5 * * * *'
+
+jobs:
+  # ime ovde nije bitno, to je samo ID,
+  # moze da bude sta god zelis
+  cron:
+    name: Run every 5 minutes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello world
+        run: echo 'Hello World'

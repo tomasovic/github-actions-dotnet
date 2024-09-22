@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # install this on VM
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0
+
+      # testing the app
+      - name: dotnet test
+        run: dotnet test --configuration Release
+
+      - name: dotnet publish
+        # sada ispod u run command ne moras da kazes src/<fajlovi folderi>,
+        # ako koristis working-directory:
+#        working-directory: src/
+        # -o artifacts - output artifacts - artifacts je folder
+#        run: dotnet publish /GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o ../artifacts
+        # artifact koji napravis i uploadujes, videces kada kliknes na workflow,
+        # cim zavrsi videces artifact koji mozes downloadujes
+        run: dotnet publish src/GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          # artifact koji napravis i uploadujes, videces kada kliknes na workflow,
+          # cim zavrsi videces artifact koji mozes downloadujes
+          name: dometrain-artifact
+          # dotnet publish si rekao da zelis da ide u artifacts folder
+          path: artifacts
