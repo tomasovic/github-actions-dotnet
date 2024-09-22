@@ -90,7 +90,7 @@ jobs:
           # env.AZURE_WEBAPP_NAME - ime aplikacije koju si dao ili dobio na Azure
           # to je ime u App service koji si dao za app.
           # app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          app-name: dometrain
+          app-name: domtrain-githubactions
           #  ovde si uradio download artifacta
           # mora da ima isti naziv kao i u stepu iznad
           package: artifacts/
@@ -134,7 +134,7 @@ jobs:
           # env.AZURE_WEBAPP_NAME - ime aplikacije koju si dao ili dobio na Azure
           # to je ime u App service koji si dao za app.
           # app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          app-name: domtrain-prod
+          app-name: domtrain-githubactions-prod
           #  ovde si uradio download artifacta
           # mora da ima isti naziv kao i u stepu iznad
           package: artifacts/
