@@ -41,13 +41,21 @@ jobs:
       # tamo imas ovaj env,
       # ovde ga prosledjujes sada tamo.
       env: dev
+    # moras da kazes inherit,
+    # ovaj action se pokrece PRVI,
+    # i on ce pokupiti sve secrets,
+    # koje ce proslediti u step-deploy.yml koji je base.
+    secrets: inherit
 
 
   deploy_prod:
     name: Deploy Prod
-    needs: build
+    needs: deploy_dev
     uses: ./.github/workflows/step-deploy.yml
     with:
       env: prod
-
-
+    # moras da kazes inherit,
+    # ovaj action se pokrece PRVI,
+    # i on ce pokupiti sve secrets,
+    # koje ce proslediti u step-deploy.yml koji je base.
+    secrets: inherit
