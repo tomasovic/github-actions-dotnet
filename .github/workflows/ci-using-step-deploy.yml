@@ -1,0 +1,61 @@
+name: CI-CD-using-step-deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0
+
+      - name: dotnet test
+        run: dotnet test --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish src/GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dometrain-artifact
+          path: artifacts/
+
+  deploy_dev:
+    name: Deploy Dev
+    needs: build
+    uses: ./.github/workflows/step-deploy.yml
+    with:
+      # ako pogledas step-deploy,
+      # inputs property,
+      # tamo imas ovaj env,
+      # ovde ga prosledjujes sada tamo.
+      env: dev
+    # moras da kazes inherit,
+    # ovaj action se pokrece PRVI,
+    # i on ce pokupiti sve secrets,
+    # koje ce proslediti u step-deploy.yml koji je base.
+    secrets: inherit
+
+
+  deploy_prod:
+    name: Deploy Prod
+    needs: deploy_dev
+    uses: ./.github/workflows/step-deploy.yml
+    with:
+      env: prod
+    # moras da kazes inherit,
+    # ovaj action se pokrece PRVI,
+    # i on ce pokupiti sve secrets,
+    # koje ce proslediti u step-deploy.yml koji je base.
+    secrets: inherit
